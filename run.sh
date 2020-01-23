@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo ""
+echo ""
+echo ""
 
  URL="https://github.com/icqparty/"
 
@@ -30,8 +33,6 @@ then
     echo ""
     while read p; do
 
-        index=$((i+1))
-
         repo_url_complete=$(echo $URL$p | cut -d'=' -f1 | xargs)
         repo_token_complete=$(echo $p | cut -d'=' -f2 | xargs)
 
@@ -41,25 +42,22 @@ then
         echo "repo_url_complete=$repo_url_complete"
         echo "repo_token_complete=$repo_token_complete"
         echo ""
-        echo "docker run -d --restart=always -e REPO_URL="$repo_url_complete" -e RUNNER_TOKEN="$repo_token_complete" -v /var/run/docker.sock:/var/run/docker.sock --name $repo_name ."
+        echo "docker run -rm -d --restart=always -e REPO_URL="$repo_url_complete" -e RUNNER_TOKEN="$repo_token_complete" -v /var/run/docker.sock:/var/run/docker.sock --name $repo_name -t github-runner:latest"
         echo ""
 
-#        docker exec -t $repo_name ./config.sh remove --token repo_token_complete
 
-        try
-        (
-             docker stop $repo_name && docker rm $repo_name
-            echo "finished"
-        )
+        docker stop $repo_name && docker rm $repo_name
 
 
-
-        docker run -d --restart=always -e REPO_URL="$repo_url_complete" -e RUNNER_TOKEN="$repo_token_complete" -v /var/run/docker.sock:/var/run/docker.sock --name $repo_name -t github-runner:latest
+        docker run -d --rm  -e REPO_URL="$repo_url_complete" -e RUNNER_TOKEN="$repo_token_complete" -v /var/run/docker.sock:/var/run/docker.sock --name $repo_name -t github-runner:latest
 
 
         #REPO_NAME=${repo_name}  REPO_URL=${repo_url_complete}  REPO_TOKEN=${repo_token_complete}  docker-compose up -d --force-recreate --remove-orphans
         echo "-------------------------"
         echo ""
+
+
+        index=$((i+1))
 
         docker ps
     done <"$FILE"
