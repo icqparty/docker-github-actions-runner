@@ -6,7 +6,7 @@ on:
 
 jobs:
   ubuntu_tag_deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - name: Copy Repo Files
       uses: actions/checkout@master
@@ -24,7 +24,7 @@ jobs:
     - name: Build
       run: docker buildx build -f Dockerfile.ubuntu -t myoung34/github-runner:${TAG} --output "type=image,push=true" --platform linux/amd64,linux/arm/v7,linux/arm64 .
   ubuntu_bionic_deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - name: Copy Repo Files
       uses: actions/checkout@master
@@ -42,7 +42,7 @@ jobs:
     - name: Build
       run: docker buildx build -f Dockerfile.ubuntu-bionic -t myoung34/github-runner:${TAG}-ubuntu-bionic --output "type=image,push=true" --platform linux/amd64,linux/arm/v7,linux/arm64 .
   ubuntu_xenial_deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - name: Copy Repo Files
       uses: actions/checkout@master
