@@ -33,6 +33,7 @@ then
     echo ""
     while read p; do
 
+
         repo_url_complete=$(echo $URL$p | cut -d'=' -f1 | xargs)
         repo_token_complete=$(echo $p | cut -d'=' -f2 | xargs)
 
@@ -46,6 +47,7 @@ then
         echo ""
 
 
+        docker exec -i $repo_name /bin/bash -c "sudo /actions-runner/config.sh remove --token AANUQQZYVP24COJAYIS23RC6FIAI4"
         docker stop $repo_name && docker rm $repo_name
 
 
@@ -58,11 +60,12 @@ then
 
 
         index=$((i+1))
-
-        docker ps
     done <"$FILE"
+
+    docker ps
 else
   echo "File ENV not found : $FILE"
   echo ""
   exit 1
 fi
+
