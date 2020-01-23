@@ -49,7 +49,6 @@ then
         echo "-------------------------"
         echo ""
 
-
         docker ps
     done <"$FILE"
 else
