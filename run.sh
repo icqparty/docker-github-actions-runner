@@ -21,6 +21,7 @@ fi
 
 docker build -t github-runner:latest -f Dockerfile.ubuntu .
 
+index=0
 
 if test -f "$FILE";
 then
@@ -28,10 +29,13 @@ then
     echo "File: ${FILE}"
     echo ""
     while read p; do
+
+        index=$((i+1))
+
         repo_url_complete=$(echo $URL$p | cut -d'=' -f1 | xargs)
         repo_token_complete=$(echo $p | cut -d'=' -f2 | xargs)
 
-        repo_name="$(echo $p | cut -d'=' -f1 | xargs)"
+        repo_name="$(echo $p | cut -d'=' -f1 | xargs)$index"
 
         echo "repo_name=$repo_name"
         echo "repo_url_complete=$repo_url_complete"
@@ -40,7 +44,15 @@ then
         echo "docker run -d --restart=always -e REPO_URL="$repo_url_complete" -e RUNNER_TOKEN="$repo_token_complete" -v /var/run/docker.sock:/var/run/docker.sock --name $repo_name ."
         echo ""
 
-        docker stop $repo_name && docker rm $repo_name
+#        docker exec -t $repo_name ./config.sh remove --token repo_token_complete
+
+        try
+        (
+             docker stop $repo_name && docker rm $repo_name
+            echo "finished"
+        )
+
+
 
         docker run -d --restart=always -e REPO_URL="$repo_url_complete" -e RUNNER_TOKEN="$repo_token_complete" -v /var/run/docker.sock:/var/run/docker.sock --name $repo_name -t github-runner:latest
 
