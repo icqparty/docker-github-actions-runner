@@ -1,0 +1,8 @@
+github_runner:
+#  container_name: gh_runner_${REPO_NAME}
+  restart: always
+  build: .
+  dockerfile: Dockerfile.ubuntu
+  environment:
+    RUNNER_TOKEN: ${REPO_TOKEN}
+    REPO_URL: ${REPO_URL}
