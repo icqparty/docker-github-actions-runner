@@ -11,8 +11,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Docker build && push
+#    - name: Docker login
+#      run: docker login docker.pkg.github.com --username icqparty
+    - name: Dcoker push
       run: |
-#        docker login docker.pkg.github.com --username icqparty
         docker tag app docker.pkg.github.com/icqparty/repo/docker-github-actions-runner:1.0
         docker push docker.pkg.github.com/icqparty/repo/docker-github-actions-runner:1.0
