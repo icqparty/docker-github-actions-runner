@@ -1,8 +1,8 @@
 name: Publish Docker
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - master
 
 jobs:
   ubuntu_tag_deploy:
@@ -10,4 +10,4 @@ jobs:
     steps:
     - name: Copy Repo Files
       run: |
-        docker login docker.pkg.github.com --username phanatic
+        echo "test deploy"
