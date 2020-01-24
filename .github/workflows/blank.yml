@@ -16,5 +16,6 @@ jobs:
       run: echo Hello, world!
     - name: Run a multi-line script
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        docker login docker.pkg.github.com --username icqparty
+        docker tag app docker.pkg.github.com/icqparty/repo/docker-github-actions-runner:1.0
+        docker push docker.pkg.github.com/icqparty/repo/docker-github-actions-runner:1.0

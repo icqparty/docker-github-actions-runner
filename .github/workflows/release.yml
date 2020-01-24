@@ -9,4 +9,5 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Copy Repo Files
-      run: echo "TEST"
+      run: |
+        docker login docker.pkg.github.com --username phanatic
